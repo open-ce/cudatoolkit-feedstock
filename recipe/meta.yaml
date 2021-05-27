@@ -225,9 +225,7 @@
 %}
 {% set version = cudavars[major_minor]["version"] %}
 {% set version_patch = cudavars[major_minor]["version_patch"]["linux64"] %}  # [linux64]
-{% set version_patch = cudavars[major_minor]["version_patch"]["osx"] %}  # [osx]
 {% set version_patch = cudavars[major_minor]["version_patch"]["ppc64le"] %}  # [ppc64le]
-{% set version_patch = cudavars[major_minor]["version_patch"]["win"] %}  # [win]
 {% set subdomain = cudavars[major_minor]["subdomain"] %}
 {% set download_dir = cudavars[major_minor]["download_dir"] %}
 
@@ -239,9 +237,7 @@
 {% endif %}
 {% set runfile_pre = "cuda_" + version + version_patch_underscore + version_patch %}
 {% set runfile = runfile_pre + "_linux" + cudavars[major_minor]["blob_ext"].get("linux64", "NONE") %}  # [linux64]
-{% set runfile = runfile_pre + "_mac" + cudavars[major_minor]["blob_ext"].get("osx", "NONE") %}  # [osx]
 {% set runfile = runfile_pre + "_linux_ppc64le" + cudavars[major_minor]["blob_ext"].get("ppc64le", "NONE") %}  # [ppc64le]
-{% set runfile = runfile_pre + "_win10" + cudavars[major_minor]["blob_ext"].get("win", "NONE") %}  # [win]
 
 
 package:
@@ -254,9 +250,7 @@ source:
   - fn: {{ runfile }}
     url: https://{{ subdomain }}.nvidia.com/compute/cuda/{{ download_dir }}/local_installers/{{ runfile }}
     md5: {{ cudavars[major_minor]["checksums"]["linux64"] }}  # [linux64]
-    md5: {{ cudavars[major_minor]["checksums"]["osx"] }}  # [osx]
     md5: {{ cudavars[major_minor]["checksums"]["ppc64le"] }}  # [ppc64le]
-    md5: {{ cudavars[major_minor]["checksums"]["win"] }}  # [win]
 
 build:
   number: 8
@@ -277,14 +271,6 @@ build:
   script: |
     echo {{ major_minor_ver }}
     python build.py --version={{ version }} --version-patch={{ version_patch }} --runfile={{ runfile }}
-    if errorlevel 1 exit 1                                                 # [win]
-
-    :: copy nvvm and libdevice into the DLLs folder so numba can use them  # [win]
-    mkdir "%PREFIX%\DLLs"                                                  # [win]
-    xcopy /s /y "%PREFIX%\Library\bin\nvvm*" "%PREFIX%\DLLs\"              # [win]
-    if errorlevel 1 exit 1                                                 # [win]
-    xcopy /s /y "%PREFIX%\Library\bin\libdevice*" "%PREFIX%\DLLs\"         # [win]
-    if errorlevel 1 exit 1                                                 # [win]
 
 
 requirements:
@@ -308,8 +294,6 @@ test:
   commands:
     - test ! -f "${PREFIX}/lib/libaccinj64.so"         # [linux]
     - test ! -f "${PREFIX}/lib/libcuinj64.so"          # [linux]
-    - if exist %LIBRARY_BIN%\\libaccinj64*.dll exit 1  # [win]
-    - if exist %LIBRARY_BIN%\\libcuinj64*.dll exit 1   # [win]
 
 about:
   home: https://developer.nvidia.com/cuda-toolkit
@@ -331,9 +315,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - scopatz
-    - mike-wendt
-    - jakirkham
-    - raydouglass
-    - kkraus14
-    - leofang
+    - open-ce/open-ce-dev-team
