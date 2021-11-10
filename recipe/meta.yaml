@@ -253,7 +253,7 @@ source:
     md5: {{ cudavars[major_minor]["checksums"]["ppc64le"] }}  # [ppc64le]
 
 build:
-  number: 8
+  number: 9
   script_env:
     - NVTOOLSEXT_INSTALL_PATH
     - DEBUG_INSTALLER_PATH
@@ -276,7 +276,7 @@ build:
 requirements:
   build:
     - 7za  # [win]
-    - python >=3.7
+    - python <3.10
     # for run_exports
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
@@ -289,7 +289,7 @@ requirements:
 test:
   requires:
     - numba
-    - python >=3.7
+    - python <3.10
     - setuptools  # for pkg_resources
   commands:
     - test ! -f "${PREFIX}/lib/libaccinj64.so"         # [linux]
