@@ -412,7 +412,24 @@ class LinuxExtractor(Extractor):
                 else:
                     # <=10.0
                     cmd.append(f"--toolkitpath={tmpd}")
+
+                # For some reason, using root user, this cuda run file extraction causes "/usr/local/cuda"
+                # symlink to point to the temporary directory where this runfile is extracted.
+                # So, we need to restore the symlink to what it was before runfile extraction.
+                CUDA_HOME="/usr/local/cuda"
+                link_before_extract = ""
+                if os.path.islink(CUDA_HOME):
+                    link_before_extract = os.readlink(CUDA_HOME)
+                    print("Current link before extraction: ", link_before_extract)
+
                 self.run_extract(cmd, check=check)
+
+                link_after_extract = os.readlink(CUDA_HOME)
+                print("Current link after extraction: ", link_after_extract)
+                if os.getuid() == 0 or link_before_extract != link_after_extract:
+                    os.unlink(CUDA_HOME)
+                    os.symlink(link_before_extract, CUDA_HOME)
+ 
             for p in self.patches:
                 os.chmod(p, 0o777)
                 cmd = [
