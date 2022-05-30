@@ -225,20 +225,17 @@
     "version": "11.4.4",
     "version_patch": {
       "linux64": "470.82.01",
-      "aarch64": "470.82.01",
       "osx": "skip",
       "ppc64le": "470.82.01",
     },
     "subdomain": "developer.download",
     "download_dir": "11.4.4",
     "checksums": {
-      "linux64": "7d599e45301a2850d13d728ddcdc8840",
-      "aarch64": "2aec547e33bccc2466bc36ebabb21db6",
+      "linux64": "21e66ea7ea4f0e39f752a7f6269614ab",
       "ppc64le": "9822cdcc6c1099c5257e144c457e65cf",
     },
     "blob_ext": {
       "linux64": ".run",
-      "aarch64": ".run",
       "ppc64le": ".run",
     },
     "sysroot_version": "2.17",
