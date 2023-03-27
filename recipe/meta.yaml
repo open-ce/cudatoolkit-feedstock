@@ -3,7 +3,7 @@
 # Copyright (c) 2017, Continuum Analytics, Inc. All rights reserved.
 #
 # Distribution of the content approved by NVIDIA ( http://nvbugs/3052604 )
-{% set major_minor = major_minor_ver|default("11.7.1") %}
+{% set major_minor = major_minor_ver|default("11.8.0") %}
 
 # The following cudavars dictionary is a table of metadata for selecting various
 # paramaters based on the X.Y version number of cudatoolkit. The following is a description
@@ -240,18 +240,18 @@
     },
     "sysroot_version": "2.17",
   },
-  "11.7.1": {
-    "version": "11.7.1",
+  "11.8.0": {
+    "version": "11.8.0",
     "version_patch": {
-      "linux64": "515.65.01",
+      "linux64": "520.61.05",
       "osx": "skip",
-      "ppc64le": "515.65.01",
+      "ppc64le": "520.61.05",
     },
     "subdomain": "developer.download",
-    "download_dir": "11.7.1",
+    "download_dir": "11.8.0",
     "checksums": {
-      "ppc64le": "58eb97ac96bacda76e74c9dc6932ca5a",
-      "linux64": "cd470869c316fb7f389b3fdf34edec5f",
+      "ppc64le": "3753c152bc611d31dec45d56feb60506",
+      "linux64": "d6cf26349e5a4104b8683e26b717fa22",
     },
     "blob_ext": {
       "linux64": ".run",
@@ -291,7 +291,7 @@ source:
     md5: {{ cudavars[major_minor]["checksums"]["ppc64le"] }}  # [ppc64le]
 
 build:
-  number: 10
+  number: 1
   script_env:
     - NVTOOLSEXT_INSTALL_PATH
     - DEBUG_INSTALLER_PATH
@@ -327,7 +327,7 @@ requirements:
 test:
   requires:
     - numba
-    - python <3.10
+    - python <3.12
     - setuptools  # for pkg_resources
   commands:
     - test ! -f "${PREFIX}/lib/libaccinj64.so"         # [linux]
