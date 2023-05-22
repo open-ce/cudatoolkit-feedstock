@@ -272,7 +272,7 @@ source:
     md5: {{ cudavars[major_minor]["checksums"]["ppc64le"] }}  # [ppc64le]
 
 build:
-  number: 10
+  number: 11
   script_env:
     - NVTOOLSEXT_INSTALL_PATH
     - DEBUG_INSTALLER_PATH
@@ -307,7 +307,7 @@ requirements:
 
 test:
   requires:
-    - numba
+    - numba <0.57
     - python <3.10
     - setuptools  # for pkg_resources
   commands:
