@@ -328,6 +328,7 @@ test:
   requires:
     - numba <0.57
     - python <3.12
+    - importlib_metadata 6.0.0
     - setuptools  # for pkg_resources
   commands:
     - test ! -f "${PREFIX}/lib/libaccinj64.so"         # [linux]
